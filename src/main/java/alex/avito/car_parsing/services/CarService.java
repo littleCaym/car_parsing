@@ -28,5 +28,6 @@ public interface CarService {
 	boolean checkLastUploadDateEqualsDate(LocalDate date);
 
 
+	boolean isExistCarByLink(String link);
 
 }

@@ -88,5 +88,9 @@ public class CarServiceImpl implements CarService {
 		return carRepo.existsCarByUploadDate(date);
 	}
 
+	@Override
+	public boolean isExistCarByLink(String link) {
+		return carRepo.existsCarByLink(link);
+	}
 
 }

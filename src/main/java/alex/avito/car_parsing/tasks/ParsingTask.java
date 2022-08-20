@@ -53,7 +53,7 @@ public class ParsingTask {
 					Elements content = doc.getElementsByClass("iva-item-content-rejJg");
 					LOG.info(link.getDescription() + " parsing started");
 
-//					contentRestructuring(content);
+					contentRestructuring(content);
 
 
 				} catch (IOException e) {
@@ -61,6 +61,7 @@ public class ParsingTask {
 					//TODO: А если АВИТО не ответил?
 				}
 
+				LOG.info("Waiting before next search...");
 				Thread.sleep(60000);
 
 			}
@@ -77,6 +78,14 @@ public class ParsingTask {
 				continue;
 			}
 			car.setUploadDate(localDateCurr);
+
+			car.setLink("https://www.avito.ru/"+
+					e.getElementsByTag("a").first().attr("href")
+			);
+
+			if (!isExistCarByLink(car.getLink())) {
+				continue;
+			}
 
 
 			String st = e.select("div[class=iva-item-priceStep-uq2CQ]").text();
@@ -105,9 +114,6 @@ public class ParsingTask {
 			car.setLocation(e.
 					select("div[class=geo-root-zPwRk iva-item-geo-_Owyg]").text());
 
-			car.setLink("https://www.avito.ru/"+
-					e.getElementsByTag("a").first().attr("href")
-			);
 
 			car.setImageSrc(e
 					.getElementsByClass("photo-slider-image-YqMGj")
@@ -115,6 +121,7 @@ public class ParsingTask {
 			);
 
 			carService.saveCar(car);
+			LOG.info(car.getModel()+ " is saved");
 
 		}
 	}
@@ -124,4 +131,8 @@ public class ParsingTask {
 				.checkLastUploadDateEqualsDate(currDate);
 	}
 
+	//todo: delete before production
+	private boolean isExistCarByLink(String link){
+		return carService.isExistCarByLink(link);
+	}
 }

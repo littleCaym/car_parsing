@@ -29,5 +29,7 @@ public interface CarRepo extends JpaRepository<Car, Long> {
 
 	boolean existsCarByUploadDate(LocalDate date);
 
+	boolean existsCarByLink(String link);
+
 
 }
