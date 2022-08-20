@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -15,7 +18,7 @@ public class Car {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cars_id_generator")
 	@SequenceGenerator(name = "cars_id_generator", sequenceName = "cars_id_seq", allocationSize = 1)
-	long id;
+	long car_id;
 	@Column
 	String model;
 	@Column
@@ -35,12 +38,20 @@ public class Car {
 	@Column
 	String location;
 
-	public long getId() {
-		return id;
+	@ManyToOne
+	@JoinColumn(name = "session_id", nullable = false)
+	Session session;
+
+	@ManyToOne
+	@JoinColumn(name = "search_link_id", nullable = false)
+	Link searchLink;
+
+	public long getCar_id() {
+		return car_id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setCar_id(long id) {
+		this.car_id = id;
 	}
 
 	public String getModel() {
@@ -113,6 +124,22 @@ public class Car {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public Session getSession() {
+		return session;
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
+	}
+
+	public Link getSearchLink() {
+		return searchLink;
+	}
+
+	public void setSearchLink(Link searchLink) {
+		this.searchLink = searchLink;
 	}
 
 }

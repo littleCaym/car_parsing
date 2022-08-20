@@ -1,8 +1,12 @@
 package alex.avito.car_parsing.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -10,11 +14,15 @@ import javax.persistence.Table;
 public class Link {
 	@Id
 	@Column
-	long id;
+	long link_id;
 	@Column
 	String link;
 	@Column
 	String description;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "searchLink")
+	Set<Car> carSet;
 
 	public Link(){}
 
@@ -23,12 +31,12 @@ public class Link {
 		this.description = description;
 	}
 
-	public long getId() {
-		return id;
+	public long getLink_id() {
+		return link_id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setLink_id(long id) {
+		this.link_id = id;
 	}
 
 	public String getLink() {
@@ -45,6 +53,14 @@ public class Link {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Set<Car> getCarSet() {
+		return carSet;
+	}
+
+	public void setCarSet(Set<Car> carSet) {
+		this.carSet = carSet;
 	}
 
 }
