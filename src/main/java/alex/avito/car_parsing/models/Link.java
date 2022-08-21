@@ -10,7 +10,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "links")
+@Table(name = "\"Link\"")
 public class Link {
 	@Id
 	@Column

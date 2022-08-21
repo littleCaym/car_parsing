@@ -17,7 +17,7 @@ import org.hibernate.annotations.CollectionId;
 import org.springframework.stereotype.Component;
 
 @Entity
-@Table(name = "sessions")
+@Table(name = "\"Session\"")
 public class Session {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sessions_id_generator")
