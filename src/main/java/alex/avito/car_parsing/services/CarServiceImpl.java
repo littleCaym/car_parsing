@@ -6,7 +6,9 @@ import alex.avito.car_parsing.models.Session;
 import alex.avito.car_parsing.repositories.CarRepo;
 import alex.avito.car_parsing.repositories.LinkRepo;
 import alex.avito.car_parsing.repositories.SessionRepo;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,12 +94,28 @@ public class CarServiceImpl implements CarService {
 
 
 	@Override
-	public List<List<Object>> getMiddlePriceForAllCarsByYear() {
-		List<List<Object>> data = carRepo.findMiddlePriceForEachDate();
+	public List<List<Object>> getMiddlePriceForAllCarsGroupBySession() {
+
+		List<List<Object>> data = carRepo.findMiddlePriceForAllCarsGroupBySession();
 		for (List<Object> smList : data) {
+			//todo day must be distinct
+			LocalDateTime localDateTime = ((Timestamp) smList.get(0)).toLocalDateTime();
 			smList.set(0,
-					((LocalDate) smList.get(0)).getMonthValue() + "-" + ((LocalDate) smList.get(0)).getYear()
+					 localDateTime.getDayOfMonth() + "/" + localDateTime.getMonthValue()
 					);
+		}
+		return data;
+	}
+
+	@Override
+	public List<List<Object>> getMiddlePriceForCarsByModelGroupBySession(String carModel) {
+		List<List<Object>> data = carRepo.findMiddlePriceForCarsByModelGroupBySession(carModel);
+		for (List<Object> smList : data) {
+			//todo day must be distinct
+			LocalDateTime localDateTime = ((Timestamp) smList.get(0)).toLocalDateTime();
+			smList.set(0,
+					localDateTime.getDayOfMonth() + "/" + localDateTime.getMonthValue()
+			);
 		}
 		return data;
 	}

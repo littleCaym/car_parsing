@@ -26,7 +26,8 @@ public interface CarService {
 	List<Car> getCarsByModelOrderByPriceAsc(String carModel);
 	List<Car> getCarsByModelOrderByUploadDateAsc(String carModel);
 
-	List<List<Object>> getMiddlePriceForAllCarsByYear();
+	List<List<Object>> getMiddlePriceForAllCarsGroupBySession();
+	List<List<Object>> getMiddlePriceForCarsByModelGroupBySession(String carModel);
 
 	List<Link> getAllLinksFromDb();
 	Link getLinkByDescription(String description);

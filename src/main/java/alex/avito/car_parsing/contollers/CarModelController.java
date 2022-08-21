@@ -1,6 +1,7 @@
 package alex.avito.car_parsing.contollers;
 
 import alex.avito.car_parsing.services.CarService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

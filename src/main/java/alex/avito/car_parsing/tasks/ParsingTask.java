@@ -36,7 +36,7 @@ public class ParsingTask {
 
 	//TODO:	@Scheduled(cron = "* 0 9/6 * * *")
 	//todo загрузка должна быть раз в 24 часа
-	@Scheduled(initialDelay = 1000, fixedDelay=Long.MAX_VALUE)
+//	@Scheduled(initialDelay = 1000, fixedDelay=Long.MAX_VALUE)
 	public void parsingCars() throws InterruptedException {
 
 		localDateCurr = LocalDate.now();

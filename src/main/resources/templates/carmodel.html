@@ -43,7 +43,7 @@
         </div>
       </th>
       <th scope="col" style="text-align: right">
-        <a th:href="@{/statistics}">
+        <a th:href="@{/model} +'/'+ ${caractual} + '/statistics'">
           <button type="button" class="btn btn-secondary">Statistics</button>
         </a>
       </th>
@@ -59,10 +59,11 @@
     <tr>
       <th>Title</th>
       <th>Year</th>
-      <th>Price</th>
+      <th>Price (RUB)</th>
+      <th>Mileage</th>
+      <th>Params</th>
       <th>Location</th>
       <th>Uploaded</th>
-      <!--        <th>Photo</th>-->
     </tr>
     </thead>
     <tbody>
@@ -70,9 +71,11 @@
       <td><a th:href="${car.link}" th:text="${car.model}"></a></td>
       <td th:text="${car.year}"></td>
       <td th:text="${car.price}"></td>
+      <td th:text="${car.mileage}"></td>
+      <td th:text="${car.engineCapacity} + ' ' + ${car.transmissionType} + ' ' + '('+${car.horsePower}+' hp)'
+            + ' ' + ${car.bodyStyle} + ' ' + ${car.wheelDriveType} +' ' +  ${car.fuelType}"></td>
       <td th:text="${car.location}"></td>
       <td th:text="${car.uploadDate}"></td>
-      <!--        <td><img th:src="${car.imageSrc}"  alt=""/></td>-->
     </tr>
     </tbody>
   </table>
