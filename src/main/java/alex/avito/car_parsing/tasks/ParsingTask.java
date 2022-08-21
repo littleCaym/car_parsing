@@ -2,8 +2,10 @@ package alex.avito.car_parsing.tasks;
 
 import alex.avito.car_parsing.models.Car;
 import alex.avito.car_parsing.models.Link;
+import alex.avito.car_parsing.models.Session;
 import alex.avito.car_parsing.services.CarService;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Logger;
@@ -53,7 +55,11 @@ public class ParsingTask {
 					Elements content = doc.getElementsByClass("iva-item-content-rejJg");
 					LOG.info(link.getDescription() + " parsing started");
 
-					contentRestructuring(content);
+					Session session = new Session();
+					session.setTimestamp(new Timestamp(System.currentTimeMillis()));
+					carService.saveSession(session);
+
+					contentRestructuring(content, session);
 
 
 				} catch (IOException e) {
@@ -68,7 +74,7 @@ public class ParsingTask {
 		}
 	}
 
-	private void contentRestructuring(Elements content) {
+	private void contentRestructuring(Elements content, Session currSession) {
 
 		for (Element e : content) {
 			Car car = new Car();
@@ -83,7 +89,7 @@ public class ParsingTask {
 					e.getElementsByTag("a").first().attr("href")
 			);
 
-			if (!isExistCarByLink(car.getLink())) {
+			if (isExistCarByLink(car.getLink())) {
 				continue;
 			}
 
@@ -119,6 +125,11 @@ public class ParsingTask {
 					.getElementsByClass("photo-slider-image-YqMGj")
 					.attr("src")
 			);
+
+			car.setSession(currSession);
+
+			Link searchLink = carService.getLinkByDescription(car.getModel());
+			car.setSearchLink(searchLink);
 
 			carService.saveCar(car);
 			LOG.info(car.getModel()+ " is saved");

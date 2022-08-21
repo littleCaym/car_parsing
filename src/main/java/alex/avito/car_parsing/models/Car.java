@@ -1,8 +1,10 @@
 package alex.avito.car_parsing.models;
 
 import java.time.LocalDate;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +19,7 @@ import javax.persistence.Table;
 public class Car {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cars_id_generator")
-	@SequenceGenerator(name = "cars_id_generator", sequenceName = "cars_id_seq", allocationSize = 1)
+	@SequenceGenerator(name = "cars_id_generator", sequenceName = "cars_car_id_seq", allocationSize = 1)
 	long car_id;
 	@Column
 	String model;
@@ -38,11 +40,11 @@ public class Car {
 	@Column
 	String location;
 
-	@ManyToOne
+	@ManyToOne(optional = false, cascade = CascadeType.MERGE) //todo разберись, что тут
 	@JoinColumn(name = "session_id", nullable = false)
 	Session session;
 
-	@ManyToOne
+	@ManyToOne(optional = false, cascade= CascadeType.MERGE)
 	@JoinColumn(name = "search_link_id", nullable = false)
 	Link searchLink;
 

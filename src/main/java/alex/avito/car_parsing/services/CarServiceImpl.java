@@ -2,8 +2,10 @@ package alex.avito.car_parsing.services;
 
 import alex.avito.car_parsing.models.Car;
 import alex.avito.car_parsing.models.Link;
+import alex.avito.car_parsing.models.Session;
 import alex.avito.car_parsing.repositories.CarRepo;
 import alex.avito.car_parsing.repositories.LinkRepo;
+import alex.avito.car_parsing.repositories.SessionRepo;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,19 @@ public class CarServiceImpl implements CarService {
 	@Autowired
 	LinkRepo linkRepo;
 
+	@Autowired
+	SessionRepo sessionRepo;
+
+	@Override
+	public void saveSession(Session session) {
+		sessionRepo.save(session);
+	}
+
+	@Override
+	public List<Session> getAllSessionsByOrderByTimestampAsc() {
+		return null;
+	}
+
 	@Override
 	public void saveCar(Car car) {
 		carRepo.save(car);
@@ -29,6 +44,10 @@ public class CarServiceImpl implements CarService {
 		return linkRepo.findAll();
 	}
 
+	@Override
+	public Link getLinkByDescription(String description) {
+		return linkRepo.findDistinctFirstByDescription(description);
+	}
 
 	@Override
 	public List<Car> getAllCarsByOrderByModelAsc() {

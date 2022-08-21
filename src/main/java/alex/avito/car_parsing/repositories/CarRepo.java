@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CarRepo extends JpaRepository<Car, Long> {
 
+	Car findDistinctFirstByModel(String CarModel);
+
 	List<Car> findByOrderByModelAsc();
 	List<Car> findByOrderByPriceAsc();
 	List<Car> findByOrderByUploadDateAsc();

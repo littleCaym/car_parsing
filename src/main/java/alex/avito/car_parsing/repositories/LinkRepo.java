@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LinkRepo extends JpaRepository<Link, Long> {
 
+	Link findDistinctFirstByDescription(String description);
 }

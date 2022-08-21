@@ -5,9 +5,11 @@ import java.sql.Timestamp;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -18,14 +20,14 @@ import org.springframework.stereotype.Component;
 @Table(name = "sessions")
 public class Session {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cars_id_generator")
-	@SequenceGenerator(name = "cars_id_generator", sequenceName = "cars_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sessions_id_generator")
+	@SequenceGenerator(name = "sessions_id_generator", sequenceName = "sessions_session_id_seq", allocationSize = 1)
 	long session_id;
 	@Column
 	Timestamp timestamp;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "session")
+	@OneToMany(mappedBy = "session", fetch = FetchType.LAZY)
 	Set<Car> carSet;
 
 	public long getSession_id() {

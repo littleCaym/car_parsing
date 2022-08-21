@@ -2,6 +2,7 @@ package alex.avito.car_parsing.services;
 
 import alex.avito.car_parsing.models.Car;
 import alex.avito.car_parsing.models.Link;
+import alex.avito.car_parsing.models.Session;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public interface CarService {
 
-	void saveCar(Car car);
+	void saveSession(Session session);
 
-	List<Link> getAllLinksFromDb();
+	List<Session> getAllSessionsByOrderByTimestampAsc();
+
+	void saveCar(Car car);
 
 	List<Car> getAllCarsByOrderByModelAsc();
 	List<Car> getAllCarsByOrderByPriceAsc();
@@ -25,9 +28,10 @@ public interface CarService {
 
 	List<List<Object>> getMiddlePriceForAllCarsByYear();
 
-	boolean checkLastUploadDateEqualsDate(LocalDate date);
-
-
+	List<Link> getAllLinksFromDb();
+	Link getLinkByDescription(String description);
 	boolean isExistCarByLink(String link);
+
+	boolean checkLastUploadDateEqualsDate(LocalDate date);
 
 }
