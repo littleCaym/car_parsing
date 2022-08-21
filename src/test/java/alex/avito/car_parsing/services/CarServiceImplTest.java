@@ -6,12 +6,9 @@ import alex.avito.car_parsing.models.Car;
 import alex.avito.car_parsing.models.Link;
 import alex.avito.car_parsing.models.Session;
 import alex.avito.car_parsing.repositories.CarRepo;
-import alex.avito.car_parsing.repositories.LinkRepo;
 import alex.avito.car_parsing.repositories.SessionRepo;
 import java.sql.Timestamp;
-import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

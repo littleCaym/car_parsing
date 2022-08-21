@@ -59,7 +59,12 @@
       <tr>
         <th>Title</th>
         <th>Year</th>
-        <th>Price</th>
+        <th>Price (RUB)</th>
+        <th>Mileage</th>
+        <th>Params</th>
+<!--        <th>Type</th>-->
+<!--        <th>Drive</th>-->
+<!--        <th>Fuel</th>-->
         <th>Location</th>
         <th>Uploaded</th>
 <!--        <th>Photo</th>-->
@@ -70,6 +75,12 @@
         <td><a th:href="${car.link}" th:text="${car.model}"></a></td>
         <td th:text="${car.year}"></td>
         <td th:text="${car.price}"></td>
+        <td th:text="${car.mileage}"></td>
+        <td th:text="${car.engineCapacity} + ' ' + ${car.transmissionType} + ' ' + '('+${car.horsePower}+' hp)'
+            + ' ' + ${car.bodyStyle} + ' ' + ${car.wheelDriveType} +' ' +  ${car.fuelType}"></td>
+<!--        <td th:text="${car.bodyStyle}"></td>-->
+<!--        <td th:text="${car.wheelDriveType}"></td>-->
+<!--        <td th:text="${car.fuelType}"></td>-->
         <td th:text="${car.location}"></td>
         <td th:text="${car.uploadDate}"></td>
 <!--        <td><img th:src="${car.imageSrc}"  alt=""/></td>-->

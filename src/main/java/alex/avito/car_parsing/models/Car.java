@@ -4,13 +4,11 @@ import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -27,18 +25,32 @@ public class Car {
 	short year;
 	@Column
 	long price;
-	@Column(name = "image_src")
-	String imageSrc;
-	@Column(name = "specific_params")
-	String specificParams;
-	@Column(name = "upload_date")
-	LocalDate uploadDate;
 	@Column
-	String link;
-	@Column(name = "seller_name")
-	String sellerName;
+	int mileage;
+	@Column(name = "engine_capacity")
+	float engineCapacity;
+	@Column(name = "horse_power")
+	int horsePower;
+	@Column(name = "transmission_type")
+	String transmissionType;
+	@Column(name = "body_style")
+	String bodyStyle;
+	@Column(name = "wheel_drive_type")
+	String wheelDriveType;
+	@Column(name = "fuel_type")
+	String fuelType;
+	@Column
+	String description;
 	@Column
 	String location;
+	@Column(name = "seller_name")
+	String sellerName;
+	@Column(name = "upload_date")
+	LocalDate uploadDate;
+	@Column(name = "image_src")
+	String imageSrc;
+	@Column
+	String link;
 
 	@ManyToOne(optional = false, cascade = CascadeType.MERGE) //todo разберись, что тут
 	@JoinColumn(name = "session_id", nullable = false)
@@ -52,16 +64,16 @@ public class Car {
 		return car_id;
 	}
 
-	public void setCar_id(long id) {
-		this.car_id = id;
+	public void setCar_id(long car_id) {
+		this.car_id = car_id;
 	}
 
 	public String getModel() {
 		return model;
 	}
 
-	public void setModel(String title) {
-		this.model = title;
+	public void setModel(String model) {
+		this.model = model;
 	}
 
 	public short getYear() {
@@ -80,36 +92,76 @@ public class Car {
 		this.price = price;
 	}
 
-	public String getImageSrc() {
-		return imageSrc;
+	public int getMileage() {
+		return mileage;
 	}
 
-	public void setImageSrc(String imageSrc) {
-		this.imageSrc = imageSrc;
+	public void setMileage(int mileage) {
+		this.mileage = mileage;
 	}
 
-	public String getSpecificParams() {
-		return specificParams;
+	public float getEngineCapacity() {
+		return engineCapacity;
 	}
 
-	public void setSpecificParams(String specific_params) {
-		this.specificParams = specific_params;
+	public void setEngineCapacity(float engine_capacity) {
+		this.engineCapacity = engine_capacity;
 	}
 
-	public LocalDate getUploadDate() {
-		return uploadDate;
+	public int getHorsePower() {
+		return horsePower;
 	}
 
-	public void setUploadDate(LocalDate upload_date) {
-		this.uploadDate = upload_date;
+	public void setHorsePower(int horse_power) {
+		this.horsePower = horse_power;
 	}
 
-	public String getLink() {
-		return link;
+	public String getTransmissionType() {
+		return transmissionType;
 	}
 
-	public void setLink(String link) {
-		this.link = link;
+	public void setTransmissionType(String transmission_type) {
+		this.transmissionType = transmission_type;
+	}
+
+	public String getBodyStyle() {
+		return bodyStyle;
+	}
+
+	public void setBodyStyle(String body_style) {
+		this.bodyStyle = body_style;
+	}
+
+	public String getWheelDriveType() {
+		return wheelDriveType;
+	}
+
+	public void setWheelDriveType(String wheel_drive_type) {
+		this.wheelDriveType = wheel_drive_type;
+	}
+
+	public String getFuelType() {
+		return fuelType;
+	}
+
+	public void setFuelType(String fuel_type) {
+		this.fuelType = fuel_type;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public String getSellerName() {
@@ -120,12 +172,28 @@ public class Car {
 		this.sellerName = seller_name;
 	}
 
-	public String getLocation() {
-		return location;
+	public LocalDate getUploadDate() {
+		return uploadDate;
 	}
 
-	public void setLocation(String location) {
-		this.location = location;
+	public void setUploadDate(LocalDate upload_date) {
+		this.uploadDate = upload_date;
+	}
+
+	public String getImageSrc() {
+		return imageSrc;
+	}
+
+	public void setImageSrc(String image_src) {
+		this.imageSrc = image_src;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 
 	public Session getSession() {

@@ -5,8 +5,11 @@ import alex.avito.car_parsing.models.Link;
 import alex.avito.car_parsing.models.Session;
 import alex.avito.car_parsing.services.CarService;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import org.jsoup.Jsoup;
@@ -38,40 +41,41 @@ public class ParsingTask {
 
 		localDateCurr = LocalDate.now();
 
-		if (!parsingIsToEarly(localDateCurr)) {
-			List<Link> linkList = carService.getAllLinksFromDb();
+		List<Link> linkList = carService.getAllLinksFromDb();
 
-			for (Link link :
-					linkList) {
+		for (Link link :
+				linkList) {
 
-				try {
-					Document doc = Jsoup.connect(link.getLink())
-							.userAgent("Mozilla")
-							.timeout(10000) //TODO: check!
-							.get();
+			try {
+				Document doc = Jsoup
+						.connect(link.getLink())
+						.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+						.timeout(20000) //TODO: check!
+						.get();
 
-					String strHtml = doc.outerHtml();
-					doc = Parser.parse(strHtml, link.getLink());
-					Elements content = doc.getElementsByClass("iva-item-content-rejJg");
-					LOG.info(link.getDescription() + " parsing started");
+				String strHtml = doc.outerHtml();
+				doc = Parser.parse(strHtml, link.getLink());
+				Elements content = doc.getElementsByClass("iva-item-content-rejJg");
+				LOG.info(link.getDescription() + " parsing started");
 
-					Session session = new Session();
-					session.setTimestamp(new Timestamp(System.currentTimeMillis()));
-					carService.saveSession(session);
+				Session session = new Session();
+				session.setTimestamp(new Timestamp(System.currentTimeMillis()));
+				carService.saveSession(session);
 
-					contentRestructuring(content, session);
+				contentRestructuring(content, session);
 
 
-				} catch (IOException e) {
-					e.printStackTrace();
-					//TODO: А если АВИТО не ответил?
-				}
-
-				LOG.info("Waiting before next search...");
-				Thread.sleep(60000);
-
+			} catch (IOException e) {
+				e.printStackTrace();
+				//TODO: А если АВИТО не ответил?
 			}
+
+			LOG.info("Waiting before next search...");
+			Thread.sleep(30000);
+
 		}
+
+		LOG.info("Parsing is finished.");
 	}
 
 	private void contentRestructuring(Elements content, Session currSession) {
@@ -93,7 +97,6 @@ public class ParsingTask {
 				continue;
 			}
 
-
 			String st = e.select("div[class=iva-item-priceStep-uq2CQ]").text();
 			st = st.substring(0, st.length()-2);
 			st = st.replaceAll("\\s+","");
@@ -110,21 +113,40 @@ public class ParsingTask {
 
 			car.setYear(Short.parseShort(titleAndYear[1]));
 
-			car.setSellerName(e.
-					select("div[class=style-title-_wK5H text-text-LurtD text-size-s-BxGpL]")
-					.text());
+			List<Object> specificParams = parseSpecificParams(
+					e.getElementsByClass("iva-item-text-Ge6dR text-text-LurtD text-size-s-BxGpL").text());
 
-			car.setSpecificParams(e.
+			System.out.println(specificParams);
+
+			car.setMileage((int) specificParams.get(0));
+
+			car.setEngineCapacity((float) specificParams.get(1));
+
+			car.setTransmissionType((String) specificParams.get(2));
+
+			car.setHorsePower((int) specificParams.get(3));
+
+			car.setBodyStyle((String) specificParams.get(4));
+
+			car.setWheelDriveType((String) specificParams.get(5));
+
+			car.setFuelType((String) specificParams.get(6));
+
+			car.setSellerName(e.
+					select("div[class=style-title-_wK5H text-text-LurtD text-size-s-BxGpL]").text());
+
+			car.setDescription(e.
 					select("div[class=iva-item-descriptionStep-C0ty1]").text());
 
-			car.setLocation(e.
-					select("div[class=geo-root-zPwRk iva-item-geo-_Owyg]").text());
-
+			String locationString = e.
+					select("div[class=geo-root-zPwRk iva-item-geo-_Owyg]").text();
+			if (locationString.matches(".*\\d.*")) {
+				locationString = "Москва";
+			}
+			car.setLocation(locationString);
 
 			car.setImageSrc(e
-					.getElementsByClass("photo-slider-image-YqMGj")
-					.attr("src")
-			);
+					.getElementsByClass("photo-slider-image-YqMGj").attr("src"));
 
 			car.setSession(currSession);
 
@@ -145,5 +167,39 @@ public class ParsingTask {
 	//todo: delete before production
 	private boolean isExistCarByLink(String link){
 		return carService.isExistCarByLink(link);
+	}
+
+	//todo if exists
+	private List<Object> parseSpecificParams(String unifiedString) {
+		List<Object> objectList = new ArrayList<>();
+		if (unifiedString.contains(",")) {
+			String[] dividedStrings = unifiedString.split(", ");
+
+			if (dividedStrings[0].contains("км")){
+				objectList.add(
+						Integer.parseInt(
+								dividedStrings[0]
+										.substring(0, dividedStrings[0].length()-3)
+												.replaceAll("\\s","")
+						));
+			} else {
+				objectList.add(0);
+			}
+
+			String[] capTransHorseStrings = dividedStrings[1].split("\\s");
+
+			objectList.add(Float.parseFloat(
+					BigDecimal.valueOf(Float.parseFloat(capTransHorseStrings[0]))
+							.setScale(1, RoundingMode.CEILING).toString()
+			));
+			objectList.add(capTransHorseStrings[1]);
+			objectList.add(Integer.parseInt(capTransHorseStrings[2].split(",")[0].substring(1)));
+
+			objectList.add(dividedStrings[2]);
+			objectList.add(dividedStrings[3]);
+			objectList.add(dividedStrings[4]);
+
+		}
+		return objectList;
 	}
 }
