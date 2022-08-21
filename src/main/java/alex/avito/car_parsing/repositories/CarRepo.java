@@ -18,6 +18,7 @@ public interface CarRepo extends JpaRepository<Car, Long> {
 	List<Car> findByOrderByModelAsc();
 	List<Car> findByOrderByPriceAsc();
 	List<Car> findByOrderByUploadDateAsc();
+	List<Car> findByOrderByUploadDateDesc();
 	List<Car> findByOrderByYearAsc();
 
 	List<Car> findByModelOrderByModelAsc(String carModel);

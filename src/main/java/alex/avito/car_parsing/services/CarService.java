@@ -19,6 +19,7 @@ public interface CarService {
 	List<Car> getAllCarsByOrderByModelAsc();
 	List<Car> getAllCarsByOrderByPriceAsc();
 	List<Car> getAllCarsByOrderByUploadDateAsc();
+	List<Car> getAllCarsByOrderByUploadDateDesc();
 	List<Car> getAllCarsByOrderByYearAsc();
 
 	List<Car> getCarsByModelOrderByModelAsc(String carModel);

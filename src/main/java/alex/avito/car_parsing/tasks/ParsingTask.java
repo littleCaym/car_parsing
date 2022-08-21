@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -33,15 +34,15 @@ public class ParsingTask {
 
 	LocalDate localDateCurr;
 
-
-	//TODO:	@Scheduled(cron = "* 0 9/6 * * *")
-	//todo загрузка должна быть раз в 24 часа
-//	@Scheduled(initialDelay = 1000, fixedDelay=Long.MAX_VALUE)
+  //грузим страницу по дню
+  @Scheduled(cron = "0 0 15 * * *")
 	public void parsingCars() throws InterruptedException {
 
 		localDateCurr = LocalDate.now();
 
 		List<Link> linkList = carService.getAllLinksFromDb();
+
+		List<Car> existingCarList = carService.getAllCarsByOrderByUploadDateDesc();
 
 		for (Link link :
 				linkList) {
@@ -62,7 +63,7 @@ public class ParsingTask {
 				session.setTimestamp(new Timestamp(System.currentTimeMillis()));
 				carService.saveSession(session);
 
-				contentRestructuring(content, session);
+				contentRestructuring(content, session, existingCarList);
 
 
 			} catch (IOException e) {
@@ -78,23 +79,27 @@ public class ParsingTask {
 		LOG.info("Parsing is finished.");
 	}
 
-	private void contentRestructuring(Elements content, Session currSession) {
+	private void contentRestructuring(Elements content, Session currSession, List<Car> existingCarList) {
 
 		for (Element e : content) {
 			Car car = new Car();
 
-			String strDateUpload = e.select("div[class=iva-item-dateInfoStep-_acjp]").text();
-			if (!(strDateUpload.contains("час") || strDateUpload.contains("мин"))) {
-				continue;
-			}
+			//todo rename to downloadDate
+//			String strDateUpload = e.select("div[class=iva-item-dateInfoStep-_acjp]").text();
+//			if (!(strDateUpload.contains("час") || strDateUpload.contains("мин"))) {
+//				continue;
+//			}
 			car.setUploadDate(localDateCurr);
 
 			car.setLink("https://www.avito.ru/"+
-					e.getElementsByTag("a").first().attr("href")
+					Objects.requireNonNull(e.getElementsByTag("a").first()).attr("href")
 			);
 
-			if (isExistCarByLink(car.getLink())) {
-				continue;
+			if (existingCarList.stream()
+					.anyMatch(carEx ->
+							carEx.getLink().equals(car.getLink())
+					)) {
+					continue;
 			}
 
 			String st = e.select("div[class=iva-item-priceStep-uq2CQ]").text();
@@ -162,11 +167,6 @@ public class ParsingTask {
 	private boolean parsingIsToEarly(LocalDate currDate) {
 		return carService
 				.checkLastUploadDateEqualsDate(currDate);
-	}
-
-	//todo: delete before production
-	private boolean isExistCarByLink(String link){
-		return carService.isExistCarByLink(link);
 	}
 
 	//todo if exists

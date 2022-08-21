@@ -67,6 +67,11 @@ public class CarServiceImpl implements CarService {
 	}
 
 	@Override
+	public List<Car> getAllCarsByOrderByUploadDateDesc() {
+		return carRepo.findByOrderByUploadDateDesc();
+	}
+
+	@Override
 	public List<Car> getAllCarsByOrderByYearAsc() {
 		return carRepo.findByOrderByYearAsc();
 	}
