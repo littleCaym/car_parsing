@@ -35,7 +35,7 @@ public class ParsingTask {
 	LocalDate localDateCurr;
 
   //грузим страницу по дню
-  @Scheduled(cron = "0 0 15 * * *")
+  @Scheduled(cron = "0 0 10,16 * * *")
 	public void parsingCars() throws InterruptedException {
 
 		localDateCurr = LocalDate.now();
