@@ -35,7 +35,7 @@ public class ParsingTask {
 	LocalDate localDateCurr;
 
   //грузим страницу по дню
-  @Scheduled(cron = "0 0 10,16 * * *")
+  @Scheduled(cron = "0 0 16 * * *")
 	public void parsingCars() throws InterruptedException {
 
 		localDateCurr = LocalDate.now();
@@ -162,11 +162,6 @@ public class ParsingTask {
 			LOG.info(car.getModel()+ " is saved");
 
 		}
-	}
-
-	private boolean parsingIsToEarly(LocalDate currDate) {
-		return carService
-				.checkLastUploadDateEqualsDate(currDate);
 	}
 
 	//todo if exists
