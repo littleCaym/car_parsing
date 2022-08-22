@@ -40,6 +40,15 @@ public class CarServiceImpl implements CarService {
 		carRepo.save(car);
 	}
 
+	@Override
+	public void saveAllLinks(List<Link> linkList) {
+		linkRepo.saveAll(linkList);
+	}
+
+	@Override
+	public void deleteAllLinks() {
+		linkRepo.deleteAll();
+	}
 
 	@Override
 	public List<Link> getAllLinksFromDb() {

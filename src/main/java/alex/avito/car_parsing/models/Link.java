@@ -26,7 +26,8 @@ public class Link {
 
 	public Link(){}
 
-	public Link(String link, String description) {
+	public Link(long link_id, String link, String description) {
+		this.link_id = link_id;
 		this.link = link;
 		this.description = description;
 	}

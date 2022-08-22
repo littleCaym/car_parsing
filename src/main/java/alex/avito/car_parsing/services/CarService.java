@@ -30,6 +30,8 @@ public interface CarService {
 	List<List<Object>> getMiddlePriceForAllCarsGroupBySession();
 	List<List<Object>> getMiddlePriceForCarsByModelGroupBySession(String carModel);
 
+	void saveAllLinks(List<Link> linkList);
+	void deleteAllLinks();
 	List<Link> getAllLinksFromDb();
 	Link getLinkByDescription(String description);
 	boolean isExistCarByLink(String link);
