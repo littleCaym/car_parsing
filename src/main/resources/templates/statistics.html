@@ -45,6 +45,7 @@
         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownCarModel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Car model:</a>
         <div class="dropdown-menu" aria-labelledby="dropdownCarModel">
+          <a class="dropdown-item" th:href="@{/statistics}">All cars</a>
           <div th:each="link:${links}">
             <a class="dropdown-item" th:href="@{/model} +'/'+ ${link.description} +'/statistics'" th:text="${link.description}"></a>
           </div>
