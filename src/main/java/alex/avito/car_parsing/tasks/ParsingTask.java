@@ -68,7 +68,6 @@ public class ParsingTask {
 
 			} catch (IOException e) {
 				e.printStackTrace();
-				//TODO: А если АВИТО не ответил?
 			}
 
 			LOG.info("Waiting before next search...");
@@ -84,11 +83,10 @@ public class ParsingTask {
 		for (Element e : content) {
 			Car car = new Car();
 
-			//todo rename to downloadDate
-//			String strDateUpload = e.select("div[class=iva-item-dateInfoStep-_acjp]").text();
-//			if (!(strDateUpload.contains("час") || strDateUpload.contains("мин"))) {
-//				continue;
-//			}
+			String strDateUpload = e.select("div[class=iva-item-dateInfoStep-_acjp]").text();
+			if (!(strDateUpload.contains("час") || strDateUpload.contains("мин"))) {
+				continue;
+			}
 			car.setUploadDate(localDateCurr);
 
 			car.setLink("https://www.avito.ru/"+
@@ -164,7 +162,6 @@ public class ParsingTask {
 		}
 	}
 
-	//todo if exists
 	private List<Object> parseSpecificParams(String unifiedString) {
 		List<Object> objectList = new ArrayList<>();
 		if (unifiedString.contains(",")) {

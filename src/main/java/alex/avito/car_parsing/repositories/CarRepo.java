@@ -26,11 +26,11 @@ public interface CarRepo extends JpaRepository<Car, Long> {
 	List<Car> findByModelOrderByPriceAsc(String carModel);
 	List<Car> findByModelOrderByUploadDateAsc(String carModel);
 
-	@Query(value = "select s.timestamp, avg(c.price) from Car c join c.session s group by s.timestamp")
-	List<List<Object>> findMiddlePriceForAllCarsGroupBySession();
+	@Query(value = "select uploadDate, avg(price) from Car group by uploadDate")
+	List<List<Object>> findUploadDateAndMiddlePriceForAllCarsGroupByUploadDate();
+	@Query(value = "select uploadDate, avg(price) from Car where model = ?1 group by uploadDate")
+	List<List<Object>> findUploadDateAndMiddlePriceForCarsByModelGroupByUploadDate(String carModel);
 
-	@Query(value = "select s.timestamp, avg(c.price) from Car c join c.session s where c.model = ?1 group by s.timestamp")
-	List<List<Object>> findMiddlePriceForCarsByModelGroupBySession(String carModel);
 
 	boolean existsCarByUploadDate(LocalDate date);
 

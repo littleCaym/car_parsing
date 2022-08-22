@@ -23,17 +23,17 @@ public class StatisticsController {
 
 	@GetMapping(value = "/statistics")
 	public String getStatisticsForAllCars(Model model) {
-		List<List<Object>> data = carService.getMiddlePriceForAllCarsGroupBySession();
+		List<List<Object>> data = carService.getMiddlePriceForAllCarsGroupByUploadDate();
 		model.addAttribute("chartTitle", "All cars");
-		model.addAttribute("chartData", carService.getMiddlePriceForAllCarsGroupBySession());
+		model.addAttribute("chartData", carService.getMiddlePriceForAllCarsGroupByUploadDate());
 		return "statistics";
 	}
 
 	@GetMapping(value = "/model/{carModel}/statistics")
 	public String getStatisticsForAllCars(Model model, @PathVariable String carModel) {
-		List<List<Object>> data = carService.getMiddlePriceForCarsByModelGroupBySession(carModel);
+		List<List<Object>> data = carService.getMiddlePriceForCarsByModelGroupByUploadDate(carModel);
 		model.addAttribute("chartTitle", carModel);
-		model.addAttribute("chartData", carService.getMiddlePriceForCarsByModelGroupBySession(carModel));
+		model.addAttribute("chartData", carService.getMiddlePriceForCarsByModelGroupByUploadDate(carModel));
 		return "statistics";
 	}
 

@@ -106,32 +106,14 @@ public class CarServiceImpl implements CarService {
 		return carRepo.findByModelOrderByUploadDateAsc(carModel);
 	}
 
-
 	@Override
-	public List<List<Object>> getMiddlePriceForAllCarsGroupBySession() {
-
-		List<List<Object>> data = carRepo.findMiddlePriceForAllCarsGroupBySession();
-		for (List<Object> smList : data) {
-			//todo day must be distinct
-			LocalDateTime localDateTime = ((Timestamp) smList.get(0)).toLocalDateTime();
-			smList.set(0,
-					 localDateTime.getDayOfMonth() + "/" + localDateTime.getMonthValue()
-					);
-		}
-		return data;
+	public List<List<Object>> getMiddlePriceForAllCarsGroupByUploadDate() {
+		return carRepo.findUploadDateAndMiddlePriceForAllCarsGroupByUploadDate();
 	}
 
 	@Override
-	public List<List<Object>> getMiddlePriceForCarsByModelGroupBySession(String carModel) {
-		List<List<Object>> data = carRepo.findMiddlePriceForCarsByModelGroupBySession(carModel);
-		for (List<Object> smList : data) {
-			//todo day must be distinct
-			LocalDateTime localDateTime = ((Timestamp) smList.get(0)).toLocalDateTime();
-			smList.set(0,
-					localDateTime.getDayOfMonth() + "/" + localDateTime.getMonthValue()
-			);
-		}
-		return data;
+	public List<List<Object>> getMiddlePriceForCarsByModelGroupByUploadDate(String carModel) {
+		return carRepo.findUploadDateAndMiddlePriceForCarsByModelGroupByUploadDate(carModel);
 	}
 
 	@Override
