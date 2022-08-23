@@ -36,6 +36,7 @@
           </a>
 
           <div class="dropdown-menu" aria-labelledby="dropdownCarModel">
+            <a class="dropdown-item" th:href="@{/}">All cars</a>
             <div th:each="link:${links}">
               <a class="dropdown-item" th:href="@{/model} +'/'+ ${link.description}" th:text="${link.description}"></a>
             </div>
