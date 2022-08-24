@@ -35,7 +35,7 @@ public class ParsingTask {
 	LocalDate localDateCurr;
 
   //грузим страницу по дню
-  @Scheduled(cron = "0 0 16 * * *")
+	@Scheduled(initialDelay = 1000, fixedDelay = Long.MAX_VALUE)
 	public void parsingCars() throws InterruptedException {
 
 		localDateCurr = LocalDate.now();
@@ -50,7 +50,7 @@ public class ParsingTask {
 			try {
 				Document doc = Jsoup
 						.connect(link.getLink())
-						.userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
+						.userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 Edg/104.0.1293.63")
 						.timeout(20000) //TODO: check!
 						.get();
 
