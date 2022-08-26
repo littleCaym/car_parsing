@@ -7,9 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-/**
- * todo Document type CarsRepo
- */
 @Repository
 public interface CarRepo extends JpaRepository<Car, Long> {
 
@@ -26,9 +23,9 @@ public interface CarRepo extends JpaRepository<Car, Long> {
 	List<Car> findByModelOrderByPriceAsc(String carModel);
 	List<Car> findByModelOrderByUploadDateAsc(String carModel);
 
-	@Query(value = "select uploadDate, avg(price) from Car group by uploadDate")
+	@Query(value = "select uploadDate, avg(price) from Car group by uploadDate order by uploadDate")
 	List<List<Object>> findUploadDateAndMiddlePriceForAllCarsGroupByUploadDate();
-	@Query(value = "select uploadDate, avg(price) from Car where model = ?1 group by uploadDate")
+	@Query(value = "select uploadDate, avg(price) from Car where model = ?1 group by uploadDate order by uploadDate")
 	List<List<Object>> findUploadDateAndMiddlePriceForCarsByModelGroupByUploadDate(String carModel);
 
 
