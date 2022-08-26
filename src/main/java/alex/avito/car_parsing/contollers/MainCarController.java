@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @Controller
 public class MainCarController {
 
+	private static final String CAR_LIST_MODEL_ATTRIBUTE = "carlist";
+	private static final String LINKS_MODEL_ATTRIBUTE = "links";
+	private static final String INDEX_TEMPLATE = "index";
+
 	private final CarService carService;
 
 	@Autowired
@@ -19,32 +23,31 @@ public class MainCarController {
 
 	@ModelAttribute
 	public void preLoad(Model model) {
-		model.addAttribute("links", carService.getAllLinksFromDb());
+		model.addAttribute(LINKS_MODEL_ATTRIBUTE, carService.getAllLinksFromDb());
 	}
 
 	@GetMapping(value = "/")
 	public String getAllCarsByOrderByModelAsc(Model model) {
-		model.addAttribute("carlist", carService.getAllCarsByOrderByModelAsc());
-		return "index";
+		model.addAttribute(CAR_LIST_MODEL_ATTRIBUTE, carService.getAllCarsByOrderByModelAsc());
+		return INDEX_TEMPLATE;
 	}
-
 
 	@GetMapping(value = "/byYearAsc")
 	public String getAllCarsByOrderByYearAsc(Model model) {
-		model.addAttribute("carlist", carService.getAllCarsByOrderByYearAsc());
-		return "index";
+		model.addAttribute(CAR_LIST_MODEL_ATTRIBUTE, carService.getAllCarsByOrderByYearAsc());
+		return INDEX_TEMPLATE;
 	}
 
 	@GetMapping(value = "/byPriceAsc")
 	public String getAllCarsByOrderByPriceAsc(Model model) {
-		model.addAttribute("carlist", carService.getAllCarsByOrderByPriceAsc());
-		return "index";
+		model.addAttribute(CAR_LIST_MODEL_ATTRIBUTE, carService.getAllCarsByOrderByPriceAsc());
+		return INDEX_TEMPLATE;
 	}
 
 	@GetMapping(value = "/byUploadDateAsc")
 	public String getAllCarsByUploadDateAsc(Model model) {
-		model.addAttribute("carlist", carService.getAllCarsByOrderByUploadDateAsc());
-		return "index";
+		model.addAttribute(CAR_LIST_MODEL_ATTRIBUTE, carService.getAllCarsByOrderByUploadDateAsc());
+		return INDEX_TEMPLATE;
 	}
 
 }
