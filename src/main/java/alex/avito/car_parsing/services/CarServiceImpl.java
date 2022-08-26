@@ -6,7 +6,10 @@ import alex.avito.car_parsing.models.Session;
 import alex.avito.car_parsing.repositories.CarRepo;
 import alex.avito.car_parsing.repositories.LinkRepo;
 import alex.avito.car_parsing.repositories.SessionRepo;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +72,12 @@ public class CarServiceImpl implements CarService {
 		return carRepo.findByOrderByYearAsc();
 	}
 
+	@Override
+	public List<Car> getAllCarsOrderByLocationAscStartWithMoscow() {
+		return orderCarListStartsWithMoscow(
+				carRepo.findByOrderByLocationAsc()
+		);
+	}
 
 	@Override
 	public List<Car> getCarsByModelOrderByModelAsc(String carModel) {
@@ -100,4 +109,27 @@ public class CarServiceImpl implements CarService {
 		return carRepo.findUploadDateAndMiddlePriceForCarsByModelGroupByUploadDate(carModel);
 	}
 
+	@Override
+	public List<Car> getCarsByModelOrderByLocationAscStartWithMoscow(String carModel) {
+		return orderCarListStartsWithMoscow(
+				carRepo.findByModelOrderByLocationAsc(carModel)
+		);
+	}
+
+	private List<Car> orderCarListStartsWithMoscow(List<Car> initialList) {
+
+		List<Car> toReturnList = initialList
+				.stream()
+				.filter(car -> car.getLocation().equals("Москва"))
+				.collect(Collectors.toList());
+
+		toReturnList.addAll(
+				initialList
+						.stream()
+						.filter(car -> !car.getLocation().equals("Москва"))
+						.collect(Collectors.toList())
+		);
+
+		return toReturnList;
+	}
 }

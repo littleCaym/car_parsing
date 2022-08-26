@@ -50,4 +50,10 @@ public class MainCarController {
 		return INDEX_TEMPLATE;
 	}
 
+	@GetMapping(value = "/byLocationAscStartWithMoscow")
+	public String getAllCarsOrderByLocationAscStartWithMoscow(Model model) {
+		model.addAttribute(CAR_LIST_MODEL_ATTRIBUTE, carService.getAllCarsOrderByLocationAscStartWithMoscow());
+		return INDEX_TEMPLATE;
+	}
+
 }

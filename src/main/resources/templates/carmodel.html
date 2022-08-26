@@ -24,7 +24,7 @@
             <a class="dropdown-item" th:href="@{/model} +'/'+ ${caractual}">By Title</a>
             <a class="dropdown-item" th:href="@{/model} +'/'+ ${caractual} +'/byYearAsc'">By Year</a>
             <a class="dropdown-item" th:href="@{/model} +'/'+ ${caractual} +'/byPriceAsc'">By Price</a>
-            <a class="dropdown-item" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">By Location</a>
+            <a class="dropdown-item" th:href="@{/model} +'/'+ ${caractual} +'/byLocationAscStartWithMoscow'">By Location</a>
             <a class="dropdown-item" th:href="@{/model} +'/'+ ${caractual} +'/byUploadDateAsc'">By Date</a>
           </div>
         </div>

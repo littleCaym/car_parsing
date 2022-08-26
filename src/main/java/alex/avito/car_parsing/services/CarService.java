@@ -18,11 +18,13 @@ public interface CarService {
 	List<Car> getAllCarsByOrderByUploadDateAsc();
 	List<Car> getAllCarsByOrderByUploadDateDesc();
 	List<Car> getAllCarsByOrderByYearAsc();
+	List<Car> getAllCarsOrderByLocationAscStartWithMoscow();
 
 	List<Car> getCarsByModelOrderByModelAsc(String carModel);
 	List<Car> getCarsByModelOrderByYearAsc(String carModel);
 	List<Car> getCarsByModelOrderByPriceAsc(String carModel);
 	List<Car> getCarsByModelOrderByUploadDateAsc(String carModel);
+	List<Car> getCarsByModelOrderByLocationAscStartWithMoscow(String carModel);
 
 	List<List<Object>> getMiddlePriceForAllCarsGroupByUploadDate();
 	List<List<Object>> getMiddlePriceForCarsByModelGroupByUploadDate(String carModel);

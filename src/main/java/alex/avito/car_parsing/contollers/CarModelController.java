@@ -59,5 +59,11 @@ public class CarModelController {
 		return CAR_MODEL_TEMPLATE;
 	}
 
+	@GetMapping(value = "/{carModel}/byLocationAscStartWithMoscow")
+	public String getAllCarsOrderByLocationAscStartWithMoscow(Model model, @PathVariable String carModel) {
+		model.addAttribute(CAR_LIST_MODEL_ATTRIBUTE, carService.getCarsByModelOrderByLocationAscStartWithMoscow(carModel));
+		model.addAttribute(CAR_ACTUAL_MODEL_ATTRIBUTE, carModel);
+		return CAR_MODEL_TEMPLATE;
+	}
 
 }
