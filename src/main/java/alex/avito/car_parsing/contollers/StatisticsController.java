@@ -8,13 +8,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class StatisticsController {
 
+	private final CarService carService;
+
 	@Autowired
-	CarService carService;
+	public StatisticsController(CarService carService) {
+		this.carService = carService;
+	}
 
 	@ModelAttribute
 	public void preLoad(Model model) {

@@ -6,9 +6,6 @@ import alex.avito.car_parsing.models.Session;
 import alex.avito.car_parsing.repositories.CarRepo;
 import alex.avito.car_parsing.repositories.LinkRepo;
 import alex.avito.car_parsing.repositories.SessionRepo;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,14 +13,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class CarServiceImpl implements CarService {
 
-	@Autowired
-	CarRepo carRepo;
+	private final CarRepo carRepo;
+	private final LinkRepo linkRepo;
+	private final SessionRepo sessionRepo;
 
 	@Autowired
-	LinkRepo linkRepo;
-
-	@Autowired
-	SessionRepo sessionRepo;
+	public CarServiceImpl(CarRepo carRepo, LinkRepo linkRepo, SessionRepo sessionRepo) {
+		this.carRepo = carRepo;
+		this.linkRepo = linkRepo;
+		this.sessionRepo = sessionRepo;
+	}
 
 	@Override
 	public void saveSession(Session session) {
@@ -31,23 +30,8 @@ public class CarServiceImpl implements CarService {
 	}
 
 	@Override
-	public List<Session> getAllSessionsByOrderByTimestampAsc() {
-		return null;
-	}
-
-	@Override
 	public void saveCar(Car car) {
 		carRepo.save(car);
-	}
-
-	@Override
-	public void saveAllLinks(List<Link> linkList) {
-		linkRepo.saveAll(linkList);
-	}
-
-	@Override
-	public void deleteAllLinks() {
-		linkRepo.deleteAll();
 	}
 
 	@Override
@@ -114,16 +98,6 @@ public class CarServiceImpl implements CarService {
 	@Override
 	public List<List<Object>> getMiddlePriceForCarsByModelGroupByUploadDate(String carModel) {
 		return carRepo.findUploadDateAndMiddlePriceForCarsByModelGroupByUploadDate(carModel);
-	}
-
-	@Override
-	public boolean checkLastUploadDateEqualsDate(LocalDate date) {
-		return carRepo.existsCarByUploadDate(date);
-	}
-
-	@Override
-	public boolean isExistCarByLink(String link) {
-		return carRepo.existsCarByLink(link);
 	}
 
 }

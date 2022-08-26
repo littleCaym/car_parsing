@@ -1,7 +1,6 @@
 package alex.avito.car_parsing.repositories;
 
 import alex.avito.car_parsing.models.Car;
-import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,12 +26,5 @@ public interface CarRepo extends JpaRepository<Car, Long> {
 	List<List<Object>> findUploadDateAndMiddlePriceForAllCarsGroupByUploadDate();
 	@Query(value = "select uploadDate, avg(price) from Car where model = ?1 group by uploadDate order by uploadDate")
 	List<List<Object>> findUploadDateAndMiddlePriceForCarsByModelGroupByUploadDate(String carModel);
-
-
-	boolean existsCarByUploadDate(LocalDate date);
-
-	boolean existsCarByLink(String link);
-
-
 
 }

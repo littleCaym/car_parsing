@@ -8,7 +8,13 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "\"Link\"")
 public class Link {
@@ -23,45 +29,5 @@ public class Link {
 	@JsonIgnore
 	@OneToMany(mappedBy = "searchLink", fetch = FetchType.LAZY)
 	Set<Car> carSet;
-
-	public Link(){}
-
-	public Link(long link_id, String link, String description) {
-		this.link_id = link_id;
-		this.link = link;
-		this.description = description;
-	}
-
-	public long getLink_id() {
-		return link_id;
-	}
-
-	public void setLink_id(long id) {
-		this.link_id = id;
-	}
-
-	public String getLink() {
-		return link;
-	}
-
-	public void setLink(String link) {
-		this.link = link;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Set<Car> getCarSet() {
-		return carSet;
-	}
-
-	public void setCarSet(Set<Car> carSet) {
-		this.carSet = carSet;
-	}
 
 }

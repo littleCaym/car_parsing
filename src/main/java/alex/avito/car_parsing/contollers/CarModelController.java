@@ -1,7 +1,6 @@
 package alex.avito.car_parsing.contollers;
 
 import alex.avito.car_parsing.services.CarService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/model")
 public class CarModelController {
 
+	private final CarService carService;
+
 	@Autowired
-	CarService carService;
+	public CarModelController(CarService carService) {
+		this.carService = carService;
+	}
 
 	@ModelAttribute
 	public void preLoad(Model model) {

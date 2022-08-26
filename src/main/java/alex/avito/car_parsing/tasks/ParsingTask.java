@@ -22,15 +22,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-//Lancer:
-
 @Component
 public class ParsingTask {
 
 	Logger LOG = Logger.getLogger(ParsingTask.class.getName());
 
+	private final CarService carService;
+
 	@Autowired
-	CarService carService;
+	public ParsingTask(CarService carService) {
+		this.carService = carService;
+	}
 
 	LocalDate localDateCurr;
 
@@ -51,7 +53,7 @@ public class ParsingTask {
 				Document doc = Jsoup
 						.connect(link.getLink())
 						.userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 Edg/104.0.1293.63")
-						.timeout(20000) //TODO: check!
+						.timeout(20000)
 						.get();
 
 				String strHtml = doc.outerHtml();

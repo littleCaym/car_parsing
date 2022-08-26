@@ -9,13 +9,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import org.hibernate.annotations.CollectionId;
-import org.springframework.stereotype.Component;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "\"Session\"")
 public class Session {
@@ -29,29 +32,5 @@ public class Session {
 	@JsonIgnore
 	@OneToMany(mappedBy = "session", fetch = FetchType.LAZY)
 	Set<Car> carSet;
-
-	public long getSession_id() {
-		return session_id;
-	}
-
-	public void setSession_id(long session_id) {
-		this.session_id = session_id;
-	}
-
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-
-	public Set<Car> getCarSet() {
-		return carSet;
-	}
-
-	public void setCarSet(Set<Car> carSet) {
-		this.carSet = carSet;
-	}
 
 }
