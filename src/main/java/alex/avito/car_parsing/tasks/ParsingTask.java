@@ -165,6 +165,10 @@ public class ParsingTask {
 	}
 
 	private List<Object> parseSpecificParams(String unifiedString) {
+		//String alike: 3.0 AT (174 л.с.), внедорожник, полный, бензин
+		//String alike: 220 000 км, 2.4 AT (200 л.с.), седан, передний, бензин
+		//String alike: 222 740 км, MT универсал, передний, бензин
+
 		List<Object> objectList = new ArrayList<>();
 		if (unifiedString.contains(",")) {
 			String[] dividedStrings = unifiedString.split(", ");
@@ -180,18 +184,29 @@ public class ParsingTask {
 				objectList.add(0);
 			}
 
-			String[] capTransHorseStrings = dividedStrings[1].split("\\s");
+			if (Character.isDigit(dividedStrings[1].charAt(0))) {
+				String[] capTransHorseStrings = dividedStrings[1].split("\\s");
+				objectList.add(Float.parseFloat(
+						BigDecimal.valueOf(Float.parseFloat(capTransHorseStrings[0]))
+								.setScale(1, RoundingMode.CEILING).toString()
+				));
+				objectList.add(capTransHorseStrings[1]);
+				objectList.add(Integer.parseInt(capTransHorseStrings[2].split(",")[0].substring(1)));
 
-			objectList.add(Float.parseFloat(
-					BigDecimal.valueOf(Float.parseFloat(capTransHorseStrings[0]))
-							.setScale(1, RoundingMode.CEILING).toString()
-			));
-			objectList.add(capTransHorseStrings[1]);
-			objectList.add(Integer.parseInt(capTransHorseStrings[2].split(",")[0].substring(1)));
+				objectList.add(dividedStrings[2]);
+				objectList.add(dividedStrings[3]);
+				objectList.add(dividedStrings[4]);
 
-			objectList.add(dividedStrings[2]);
-			objectList.add(dividedStrings[3]);
-			objectList.add(dividedStrings[4]);
+			} else if (Character.isLetter(dividedStrings[1].charAt(0))){
+				String[] transBody_style = dividedStrings[1].split("\\s");
+				objectList.add(0.0f);
+				objectList.add(transBody_style[0]);
+				objectList.add(0);
+				objectList.add(transBody_style[1]);
+
+				objectList.add(dividedStrings[2]);
+				objectList.add(dividedStrings[3]);
+			}
 
 		}
 		return objectList;
